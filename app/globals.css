@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+[dir="rtl"] .rtl\:rotate-180 {
+  transform: rotate(180deg);
+}
+
+/* Playfair Display (font-serif) has no Arabic glyphs — fall back to the
+   Arabic display font for any heading using font-serif when the page is
+   RTL, instead of letting the browser silently substitute a system font. */
+[dir="rtl"] .font-serif {
+  font-family: var(--font-arabic), system-ui, sans-serif;
+  font-weight: 700;
+}
+
+::selection {
+  background-color: #c9a667;
+  color: #0b1f3a;
+}
+
+:focus-visible {
+  outline: 2px solid #c9a667;
+  outline-offset: 2px;
+}
+
+/* Subtle diagonal hairline texture used behind dark/navy sections for a
+   premium, non-flat feel — intentionally faint, never competes with text. */
+.bg-navy-texture {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(201, 166, 103, 0.05) 0px,
+    rgba(201, 166, 103, 0.05) 1px,
+    transparent 1px,
+    transparent 64px
+  );
+}
+
+/* Large editorial numerals (process steps, stats) share one restrained
+   treatment: thin outlined figures rather than solid fills, so they read
+   as a typographic device, not a decoration competing with the content. */
+.numeral-outline {
+  color: rgba(11, 31, 58, 0.12); /* fallback fill if text-stroke isn't supported */
+}
+@supports (-webkit-text-stroke: 1px black) {
+  .numeral-outline {
+    -webkit-text-stroke: 1px rgba(201, 166, 103, 0.55);
+    color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-fade {
+    animation: revealFade 0.6s ease-out both;
+  }
+}
+@keyframes revealFade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

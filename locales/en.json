@@ -1,0 +1,97 @@
+{
+  "common": {
+    "readMore": "Read More",
+    "learnMore": "Learn More",
+    "viewAll": "View All",
+    "getQuote": "Request a Quote",
+    "contactUs": "Contact Us",
+    "callUs": "Call Us",
+    "whatsapp": "WhatsApp",
+    "sendMessage": "Send Message",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "backToHome": "Back to Home",
+    "ourServices": "Our Services",
+    "allServices": "All Services",
+    "relatedServices": "Related Services",
+    "whyChooseUs": "Why Choose Al Maha",
+    "ourProcess": "Our Process",
+    "capabilities": "Capabilities",
+    "industriesServed": "Industries We Serve",
+    "faq": "Frequently Asked Questions",
+    "overview": "Overview",
+    "getInTouch": "Get in Touch",
+    "requiredField": "This field is required",
+    "invalidEmail": "Please enter a valid email address",
+    "invalidPhone": "Please enter a valid phone number",
+    "successTitle": "Thank you",
+    "successMessage": "Your message has been received. Our team will get back to you shortly.",
+    "errorTitle": "Something went wrong",
+    "errorMessage": "We couldn't submit your request. Please try again or contact us directly.",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "workingHours": "Working Hours",
+    "workingHoursValue": "Saturday – Thursday, 8:00 AM – 6:00 PM",
+    "location": "Our Location"
+  },
+  "nav": {
+    "menu": "Menu",
+    "close": "Close",
+    "language": "العربية",
+    "about": "About",
+    "services": "Services",
+    "company": "Company"
+  },
+  "hero": {
+    "eyebrow": "Kuwait General Trading & Contracting",
+    "title": "Building Trust Through Quality Trading & Contracting",
+    "subtitle": "Al Maha National Company delivers construction, trading, industrial and logistics solutions built on reliability, precision and long-term partnership across Kuwait.",
+    "ctaPrimary": "Explore Our Services",
+    "ctaSecondary": "Request a Quote"
+  },
+  "footer": {
+    "tagline": "A trusted Kuwait-based partner in construction, trading and industrial solutions.",
+    "quickLinks": "Quick Links",
+    "ourServices": "Our Services",
+    "contactInfo": "Contact Information",
+    "copyright": "All rights reserved."
+  },
+  "form": {
+    "fullName": "Full Name",
+    "companyName": "Company Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "serviceRequired": "Service Required",
+    "subject": "Subject",
+    "message": "Message",
+    "country": "Country",
+    "projectType": "Project Type",
+    "estimatedBudget": "Estimated Budget",
+    "projectLocation": "Project Location",
+    "requiredDate": "Required Date",
+    "projectDescription": "Project Description",
+    "attachment": "Attachment (optional)",
+    "attachmentHelp": "PDF, JPG or PNG, up to 10MB",
+    "selectService": "Select a service",
+    "position": "Position Applying For",
+    "cvUpload": "Upload CV / Resume",
+    "coverNote": "Cover Note"
+  },
+  "quote": {
+    "title": "Request a Quote",
+    "subtitle": "Tell us about your project or requirement and our team will prepare a tailored quotation.",
+    "intro": "Complete the form below with as much detail as possible. Our team typically responds within one to two business days."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We're ready to discuss your project, trading requirement or industrial need.",
+    "formTitle": "Send Us a Message"
+  },
+  "careers": {
+    "title": "Careers at Al Maha",
+    "subtitle": "Build your career with a growing Kuwait-based trading and contracting company.",
+    "applyTitle": "Submit Your Application",
+    "noOpenings": "We don't have specific openings posted right now, but we welcome general applications from qualified candidates across our business areas."
+  }
+}
