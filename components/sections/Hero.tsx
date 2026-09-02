@@ -38,22 +38,22 @@ export function Hero({
           <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.25em] text-gold-400">
             {eyebrow}
           </span>
-          <h1 className="font-serif text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+          <h1 className="font-serif text-2xl font-bold leading-tight text-white xs:text-3xl sm:text-4xl lg:text-5xl">
             {title}
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-navy-100 sm:text-lg">
             {subtitle}
           </p>
-          <div className="mt-9 flex flex-wrap gap-4">
+          <div className="mt-9 flex flex-col gap-3 xs:flex-row xs:flex-wrap xs:gap-4">
             <Link
               href={`/${locale}/services`}
-              className="rounded-sm bg-gold px-7 py-3.5 text-sm font-semibold text-navy-900 transition-colors hover:bg-gold-600"
+              className="rounded-sm bg-gold px-7 py-3.5 text-center text-sm font-semibold text-navy-900 transition-colors hover:bg-gold-600"
             >
               {ctaPrimary}
             </Link>
             <Link
               href={`/${locale}/quote`}
-              className="rounded-sm border border-white/25 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:border-gold"
+              className="rounded-sm border border-white/25 px-7 py-3.5 text-center text-sm font-semibold text-white transition-colors hover:border-gold"
             >
               {ctaSecondary}
             </Link>

@@ -13,7 +13,7 @@ export function Header({ locale }: { locale: Locale }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-navy-50 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-8xl items-center justify-between gap-4 px-5 py-2 sm:px-8 lg:px-12">
+      <div className="mx-auto flex max-w-8xl items-center justify-between gap-3 px-4 py-2.5 sm:gap-4 sm:px-8 sm:py-2 lg:px-12">
         <Logo locale={locale} size="md" />
 
         <nav className="hidden items-center gap-1 lg:flex">

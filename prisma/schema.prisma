@@ -1,0 +1,246 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CUSTOMER
+  SUPER_ADMIN
+  ADMIN
+  SALES
+  ESTIMATOR
+  ACCOUNTS
+  OPERATIONS
+  TECHNICIAN
+}
+
+enum UserStatus {
+  PENDING_VERIFICATION
+  ACTIVE
+  SUSPENDED
+  DISABLED
+}
+
+enum OtpPurpose {
+  VERIFY_EMAIL
+  PASSWORD_RESET
+  SENSITIVE_ACTION
+}
+
+enum ProjectStatus {
+  NEW_REQUEST
+  SURVEY_PENDING
+  SURVEY_SCHEDULED
+  SURVEY_COMPLETED
+  QUOTE_PREPARING
+  QUOTE_SENT
+  QUOTE_REVISION_REQUESTED
+  QUOTE_APPROVED
+  QUOTE_REJECTED
+  CONTRACT_PENDING
+  CONTRACT_SIGNED
+  DEPOSIT_PENDING
+  DEPOSIT_PAID
+  MATERIAL_PREPARATION
+  FABRICATION
+  QUALITY_CHECK
+  INSTALLATION_SCHEDULED
+  INSTALLATION_IN_PROGRESS
+  INSTALLATION_COMPLETED
+  CUSTOMER_ACCEPTED
+  FINAL_PAYMENT_PENDING
+  COMPLETED
+  WARRANTY_ACTIVE
+  CANCELLED
+}
+
+enum ProjectMediaKind {
+  CUSTOMER_UPLOAD
+  SURVEY
+  FABRICATION
+  INSTALLATION_BEFORE
+  INSTALLATION_AFTER
+  DOCUMENT
+}
+
+model User {
+  id              String          @id @default(cuid())
+  email           String          @unique
+  passwordHash    String
+  role             UserRole        @default(CUSTOMER)
+  status           UserStatus      @default(PENDING_VERIFICATION)
+  emailVerifiedAt DateTime?
+  lastLoginAt      DateTime?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  customerProfile CustomerProfile?
+  sessions         Session[]
+  otpCodes         OtpCode[]
+  projects         Project[]       @relation("CustomerProjects")
+  auditLogs        AuditLog[]       @relation("AuditActor")
+
+  @@index([role, status])
+  @@index([createdAt])
+}
+
+model CustomerProfile {
+  id        String    @id @default(cuid())
+  userId    String    @unique
+  fullName  String
+  phone     String?
+  company   String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  addresses Address[]
+
+  @@index([phone])
+}
+
+model Address {
+  id                String          @id @default(cuid())
+  customerProfileId String
+  label             String?
+  governorate       String
+  area              String
+  block             String?
+  street            String?
+  avenue            String?
+  building          String?
+  floor             String?
+  unit              String?
+  paciNumber        String?
+  latitude          Decimal?        @db.Decimal(10, 7)
+  longitude         Decimal?        @db.Decimal(10, 7)
+  directions        String?
+  isDefault         Boolean         @default(false)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  customerProfile   CustomerProfile @relation(fields: [customerProfileId], references: [id], onDelete: Cascade)
+  projects          Project[]
+
+  @@index([customerProfileId, isDefault])
+  @@index([governorate, area])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+  ipHash    String?
+  userAgent String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+  @@index([expiresAt])
+}
+
+model OtpCode {
+  id         String     @id @default(cuid())
+  userId     String
+  purpose    OtpPurpose
+  codeHash   String
+  expiresAt  DateTime
+  consumedAt DateTime?
+  attempts   Int        @default(0)
+  createdAt  DateTime   @default(now())
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, purpose, expiresAt])
+}
+
+model SecurityCounter {
+  id           String    @id @default(cuid())
+  key          String    @unique
+  count        Int       @default(0)
+  windowStart  DateTime  @default(now())
+  blockedUntil DateTime?
+  updatedAt    DateTime  @updatedAt
+
+  @@index([blockedUntil])
+}
+
+model Project {
+  id            String        @id @default(cuid())
+  projectNumber String        @unique
+  customerId    String
+  addressId     String?
+  title         String
+  projectType   String?
+  description   String?
+  status        ProjectStatus @default(NEW_REQUEST)
+  locale        String        @default("en")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  customer      User          @relation("CustomerProjects", fields: [customerId], references: [id], onDelete: Restrict)
+  address       Address?      @relation(fields: [addressId], references: [id], onDelete: SetNull)
+  items         ProjectItem[]
+  media         ProjectMedia[]
+
+  @@index([customerId, createdAt])
+  @@index([status, createdAt])
+}
+
+model ProjectItem {
+  id          String   @id @default(cuid())
+  projectId   String
+  productType String
+  widthMm     Int?
+  heightMm    Int?
+  quantity    Int      @default(1)
+  frame       String?
+  profile     String?
+  color       String?
+  glassType   String?
+  glassColor  String?
+  mesh        Boolean?
+  openingType String?
+  notes       String?
+  options     Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}
+
+model ProjectMedia {
+  id          String           @id @default(cuid())
+  projectId   String
+  kind        ProjectMediaKind @default(CUSTOMER_UPLOAD)
+  storageKey  String
+  fileName    String
+  mimeType    String
+  sizeBytes   Int
+  uploadedBy  String?
+  createdAt   DateTime         @default(now())
+  project     Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, kind])
+}
+
+model AuditLog {
+  id            String   @id @default(cuid())
+  actorUserId   String?
+  action        String
+  entityType    String
+  entityId      String?
+  previousValue Json?
+  newValue      Json?
+  ipHash        String?
+  userAgent     String?
+  createdAt     DateTime @default(now())
+  actor         User?    @relation("AuditActor", fields: [actorUserId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId, createdAt])
+  @@index([actorUserId, createdAt])
+  @@index([createdAt])
+}

@@ -34,7 +34,7 @@ export const company = {
     lng: 47.6581
   },
 
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://www.almaha-national.com",
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://almahanationalcompanyforgeneraltradingandcontracting.com",
 
   social: {
     // Populate when official company profiles are available.

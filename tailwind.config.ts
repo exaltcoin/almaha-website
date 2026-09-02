@@ -8,6 +8,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      // Custom breakpoint isolating the 320–390px phone band from the rest
+      // of the mobile range (391–639px), so a couple of hero elements can
+      // be tuned specifically for the smallest phones without touching sm/
+      // md/lg/xl, which keep their default Tailwind values untouched.
+      screens: {
+        xs: "391px"
+      },
       colors: {
         navy: {
           DEFAULT: "#0B1F3A",
