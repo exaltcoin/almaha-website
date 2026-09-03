@@ -1,5 +1,8 @@
 import { API_BASE_URL } from "../config/api";
-import { getSessionToken } from "../auth/secureSession";
+import {
+  deleteSessionToken,
+  getSessionToken
+} from "../auth/secureSession";
 
 type ApiRequestOptions = RequestInit & {
   authenticated?: boolean;
@@ -38,10 +41,15 @@ export async function apiRequest<T>(
 
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
 
-  const response = await fetch(`${API_BASE_URL}${normalizedPath}`, {
-    ...requestOptions,
-    headers: requestHeaders
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE_URL}${normalizedPath}`, {
+      ...requestOptions,
+      headers: requestHeaders
+    });
+  } catch (error) {
+    throw error instanceof Error ? error : new Error("Network request failed");
+  }
 
   const contentType = response.headers.get("content-type") || "";
 
@@ -64,6 +72,10 @@ export async function apiRequest<T>(
       typeof (data as { error?: unknown }).error === "string"
     ) {
       message = (data as { error: string }).error;
+    }
+
+    if (authenticated && (response.status === 401 || response.status === 403)) {
+      await deleteSessionToken();
     }
 
     throw new ApiError(message, response.status, data);

@@ -13,6 +13,7 @@ import {
   logout as logoutRequest,
   MobileUser
 } from "./authService";
+import { ApiError } from "../api/client";
 
 type AuthContextValue = {
   user: MobileUser | null;
@@ -40,10 +41,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
         id: currentUser.id,
         email: currentUser.email,
         role: currentUser.role,
-        status: currentUser.status
+        status: currentUser.status,
+        profile: currentUser.profile
       });
-    } catch {
-      setUser(null);
+    } catch (error) {
+      if (
+        error instanceof ApiError &&
+        (error.status === 401 || error.status === 403)
+      ) {
+        setUser(null);
+      }
+      throw error;
     }
   }
 
@@ -72,11 +80,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
           id: currentUser.id,
           email: currentUser.email,
           role: currentUser.role,
-          status: currentUser.status
+          status: currentUser.status,
+          profile: currentUser.profile
         });
-      } catch {
+      } catch (error) {
         if (active) {
-          setUser(null);
+          if (
+            error instanceof ApiError &&
+            (error.status === 401 || error.status === 403)
+          ) {
+            setUser(null);
+          }
         }
       } finally {
         if (active) {

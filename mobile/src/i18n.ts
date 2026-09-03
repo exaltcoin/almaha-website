@@ -1,0 +1,28 @@
+export const en = {
+	brand: "Al Maha Aluminum",
+	login: "Welcome back",
+	register: "Create your account",
+	verify: "Verify your email",
+	forgot: "Forgot password?",
+	home: "Home",
+	projects: "Projects",
+	request: "New Request",
+	profile: "Profile",
+	signIn: "Sign in",
+	signOut: "Sign out",
+	noProjects: "No projects yet",
+	noProjectsText: "Your requests and project updates will appear here.",
+	newProject: "Start a new request",
+	projectTitle: "Project title",
+	projectType: "Project type",
+	description: "Tell us about your project",
+	submit: "Send request",
+	upload: "Upload site photos",
+	email: "Email address",
+	password: "Password",
+	fullName: "Full name",
+	phone: "Phone number",
+	code: "Verification code",
+	resetCode: "Reset code"
+} as const;
+export const rtlFoundation = { direction: "rtl" as const, locale: "ar" as const };

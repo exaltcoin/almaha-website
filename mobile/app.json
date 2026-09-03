@@ -1,18 +1,24 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "Al Maha Aluminum",
+    "slug": "al-maha-aluminum",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/brand/icon-512.png",
+    "splash": {
+      "image": "./assets/brand/logo-almaha-full.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F7F8F4"
+    },
     "userInterfaceStyle": "light",
+    "scheme": "almaha",
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
+        "foregroundImage": "./assets/brand/icon-512-transparent.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
