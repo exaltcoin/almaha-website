@@ -67,6 +67,29 @@ enum ProjectMediaKind {
   DOCUMENT
 }
 
+enum ProjectMediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+}
+
+enum ProjectMediaCategory {
+  CUSTOMER_REFERENCE
+  SITE_SURVEY
+  MEASUREMENT
+  BEFORE_WORK
+  FABRICATION
+  INSTALLATION
+  COMPLETION
+  OTHER
+}
+
+enum ProjectMediaStatus {
+  ACTIVE
+  QUARANTINED
+  DELETED
+}
+
 model User {
   id              String          @id @default(cuid())
   email           String          @unique
@@ -83,6 +106,7 @@ model User {
   otpCodes         OtpCode[]
   projects         Project[]       @relation("CustomerProjects")
   auditLogs        AuditLog[]       @relation("AuditActor")
+  uploadedMedia    ProjectMedia[]  @relation("MediaUploader")
 
   @@index([role, status])
   @@index([createdAt])
@@ -213,18 +237,30 @@ model ProjectItem {
 }
 
 model ProjectMedia {
-  id          String           @id @default(cuid())
-  projectId   String
-  kind        ProjectMediaKind @default(CUSTOMER_UPLOAD)
-  storageKey  String
-  fileName    String
-  mimeType    String
-  sizeBytes   Int
-  uploadedBy  String?
-  createdAt   DateTime         @default(now())
-  project     Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  id               String               @id @default(cuid())
+  projectId        String
+  kind             ProjectMediaKind     @default(CUSTOMER_UPLOAD)
+  mediaType        ProjectMediaType     @default(IMAGE)
+  category         ProjectMediaCategory @default(OTHER)
+  storageKey       String               @unique
+  originalName     String
+  fileName         String               @default("")
+  mimeType         String
+  sizeBytes        Int
+  caption          String?
+  width            Int?
+  height           Int?
+  durationSeconds  Int?
+  status           ProjectMediaStatus   @default(ACTIVE)
+  uploadedBy       String?
+  uploadedByUserId String?
+  createdAt        DateTime             @default(now())
+  project          Project              @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  uploader         User?                @relation("MediaUploader", fields: [uploadedByUserId], references: [id], onDelete: SetNull)
 
   @@index([projectId, kind])
+  @@index([projectId, category, createdAt])
+  @@index([uploadedByUserId, createdAt])
 }
 
 model AuditLog {

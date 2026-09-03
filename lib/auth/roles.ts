@@ -15,6 +15,14 @@ export type Permission =
   | "ADMIN_USER_MANAGE"
   | "AUDIT_READ";
 
+export const MEDIA_STAFF_ROLES: readonly UserRole[] = [
+  "SUPER_ADMIN", "ADMIN", "OPERATIONS", "TECHNICIAN"
+];
+
+export const MEDIA_DELETE_ROLES: readonly UserRole[] = [
+  "SUPER_ADMIN", "ADMIN", "OPERATIONS"
+];
+
 const permissions: Record<UserRole, readonly Permission[]> = {
   CUSTOMER: ["PROJECT_READ_OWN", "PROJECT_CREATE", "PROJECT_UPDATE_OWN"],
   SUPER_ADMIN: [

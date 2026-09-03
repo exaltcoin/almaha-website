@@ -6,3 +6,6 @@ out
 *.log
 .DS_Store
 next-env.d.ts
+
+# Local private customer storage
+.private-storage/
