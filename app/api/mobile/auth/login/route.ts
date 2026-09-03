@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     const identity = `${email}:${context.ip || "unknown"}`;
 
     const rate = await enforceRateLimit({
-      namespace: "mobile-login",
+      namespace: "login",
       identity,
       maxAttempts: 5,
       windowMs: 15 * 60 * 1000,
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    await clearRateLimit("mobile-login", identity);
+    await clearRateLimit("login", identity);
 
     const { token, expiresAt } = await createBearerSession(
       user.id,
