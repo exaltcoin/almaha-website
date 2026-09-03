@@ -1,5 +1,6 @@
 ﻿import type {
   PrivateStorageProvider,
+  ReadStoredFile,
   StoredFile,
   UploadFileInput,
 } from "./types";
@@ -17,6 +18,10 @@ class UnconfiguredPrivateStorageProvider
     throw new Error(
       "Private storage provider is not configured."
     );
+  }
+
+  async read(_key: string): Promise<ReadStoredFile> {
+    throw new Error("Private storage provider is not configured.");
   }
 
   async getSignedDownloadUrl(

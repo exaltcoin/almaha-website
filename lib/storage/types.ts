@@ -17,10 +17,17 @@ export interface UploadFileInput {
   category: string;
 }
 
+export interface ReadStoredFile {
+  content: Buffer;
+  contentType?: string;
+}
+
 export interface PrivateStorageProvider {
   upload(input: UploadFileInput): Promise<StoredFile>;
 
   delete(key: string): Promise<void>;
+
+  read(key: string): Promise<ReadStoredFile>;
 
   getSignedDownloadUrl(
     key: string,

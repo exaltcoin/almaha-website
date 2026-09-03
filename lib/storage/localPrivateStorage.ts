@@ -4,6 +4,7 @@ import crypto from "crypto";
 
 import type {
   PrivateStorageProvider,
+  ReadStoredFile,
   StoredFile,
   UploadFileInput,
 } from "./types";
@@ -78,6 +79,11 @@ export class LocalPrivateStorageProvider
 
       throw error;
     }
+  }
+
+  async read(key: string): Promise<ReadStoredFile> {
+    const targetPath = resolveStoragePath(key);
+    return { content: await fs.readFile(targetPath) };
   }
 
   async getSignedDownloadUrl(

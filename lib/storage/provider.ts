@@ -1,4 +1,5 @@
 ﻿import { LocalPrivateStorageProvider } from "./localPrivateStorage";
+import { S3PrivateStorageProvider } from "./s3PrivateStorage";
 import {
   getPrivateStorageProvider,
   setPrivateStorageProvider,
@@ -28,6 +29,12 @@ export function initializePrivateStorage(): PrivateStorageProvider {
 
     initialized = true;
 
+    return getPrivateStorageProvider();
+  }
+
+  if (providerName === "s3" || providerName === "r2") {
+    setPrivateStorageProvider(new S3PrivateStorageProvider());
+    initialized = true;
     return getPrivateStorageProvider();
   }
 
